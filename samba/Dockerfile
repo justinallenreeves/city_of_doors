@@ -33,4 +33,4 @@ RUN rm .pw
 
 EXPOSE 445/tcp
 
-ENTRYPOINT ["smbd", "--foreground", "--log-stdout", "--no-process-group"]
+ENTRYPOINT ["smbd", "--foreground", "--debug-stdout", "--no-process-group"]
