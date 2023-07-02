@@ -1,0 +1,51 @@
+version: "3.8"
+
+services:
+  foundry:
+    image: felddy/foundryvtt:release
+    hostname: localhost
+    init: true
+    volumes:
+      - type: bind
+        source: ./foundryvtt/data
+        target: /data
+    env_file:
+      - ./foundryvtt/.env
+    environment:
+      - CONTAINER_CACHE=./data/container_cache
+      - FOUNDRY_MINIFY_STATIC_FILES=true
+      - TIMEZONE=EDT
+    ports:
+      - target: 30000
+        published: 30000
+        protocol: tcp
+
+  jellyfin:
+    image: jellyfin/jellyfin
+    container_name: jellyfin
+    user: uid:gid
+    network_mode: 'host'
+    volumes:
+      # - /path/to/config:/config
+      # - /path/to/cache:/cache
+      # - /path/to/media:/media
+      # - /path/to/media2:/media2:ro
+      - /media/samba/mount:/media
+    restart: 'unless-stopped'
+    # Optional - alternative address used for autodiscovery
+    environment:
+      - JELLYFIN_PublishedServerUrl=http://localhost
+    # Optional - may be necessary for docker healthcheck to pass if running in host network mode
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  samba:
+    container_name: samba
+    restart: always
+    build: .
+    network_mode: "host"
+    expose:  
+      - 445
+    volumes:
+      - /media/samba/mount:/media/NAS
+      - ./samba/smb.conf:/etc/samba/smb.conf

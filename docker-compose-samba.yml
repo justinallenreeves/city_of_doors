@@ -1,0 +1,15 @@
+version: "3.8"
+
+services:
+  samba:
+    container_name: samba
+    restart: always
+    build: ./samba/
+    network_mode: "host"
+    env_file:
+      - ./samba/.env
+    expose:  
+      - 445
+    volumes:
+      - /media/samba/mount:/media/NAS
+      - ./samba/smb.conf:/etc/samba/smb.conf
