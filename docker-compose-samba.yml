@@ -6,6 +6,7 @@ services:
     restart: always
     build: ./samba/
     network_mode: "host"
+    hostname: "sigil.local"
     env_file:
       - ./samba/.env
     expose:  
