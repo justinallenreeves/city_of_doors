@@ -15,7 +15,7 @@ services:
       - /media/samba/mount:/media
     restart: 'unless-stopped'
     env_file:
-      - /jellyfin/.env
+      - ./jellyfin/.env
     environment:
       - JELLYFIN_PublishedServerUrl=http://localhost
       - JELLYFIN_DATA_DIR:/data
