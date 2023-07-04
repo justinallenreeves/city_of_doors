@@ -7,7 +7,7 @@ services:
     init: true
     volumes:
       - type: bind
-        source: ./foundryvtt/data
+        source: ./foundryvtt
         target: /data
     env_file:
       - ./foundryvtt/.env
